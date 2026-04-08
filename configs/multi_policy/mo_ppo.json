@@ -1,0 +1,26 @@
+{
+  "num_processes": 8,
+  "policy_buffer_size": 1000000,
+  "num_steps": 512,
+  "gamma": 0.995,
+  "net_arch": [
+    64,
+    64
+  ],
+  "layernorm": false,
+  "learning_rate": 3e-4,
+  "clip_param": 0.2,
+  "ppo_epoch": 10,
+  "num_mini_batches": 32,
+  "entropy_coef": 0.0,
+  "value_loss_coef": 0.5,
+  "max_grad_norm": 0.5,
+  "use_clipped_value_loss": true,
+  "use_linear_lr_decay": false,
+  "lr_decay_ratio": 1.0,
+  "use_gae": true,
+  "gae_lambda": 0.95,
+  "obj_rms": true,
+  "ob_rms": true,
+  "use_proper_time_limits": true
+}

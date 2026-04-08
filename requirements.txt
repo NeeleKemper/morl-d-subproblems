@@ -1,0 +1,8 @@
+# Python 3.11, CUDA 13.0
+# Install PyTorch separately: https://pytorch.org/get-started/locally/
+torch==2.11.0
+numpy==2.4.4
+mo-gymnasium==1.3.2
+tensorboard==2.20.0
+pymoo==0.6.1.6
+gymnasium[mujoco]==1.2.3
