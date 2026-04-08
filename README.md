@@ -2,7 +2,7 @@
 
 **Neele Kemper, Jonathan Wurth, Michael Heider, Jörg Hähner**  
 *Accepted at IJCNN 2026*  
-[Paper](#) | [Appendix & Data](https://zenodo.org/records/19471075)
+[Paper](#) | [Appendix](https://zenodo.org/records/19471075)
 
 ---
 
@@ -106,7 +106,7 @@ tensorboard --logdir mo_sac/
 ## Acknowledgements
 
 This repository builds on the following codebases:
-- [MORL/D](https://github.com/LucasAlegre/morl-baselines) — decomposition framework
+- [MORL/D](https://github.com/LucasAlegre/morl-baselines) — MORL/D baseline and decomposition framework
 - [C-MORL](https://github.com/RuohLiuq/C-MORL) — C-MORL baseline
 - [PG-MORL](https://github.com/mit-gfx/PGMORL) — PG-MORL baseline
 - [CAPQL](https://github.com/haoyelu/CAPQL) — CAPQL baseline
