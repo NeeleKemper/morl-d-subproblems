@@ -2,7 +2,7 @@
 
 **Neele Kemper, Jonathan Wurth, Michael Heider, Jörg Hähner**  
 *Accepted at IJCNN 2026*  
-[Paper](#) | [Appendix](https://zenodo.org/records/19471075)
+[Paper](#) | [Appendix](https://zenodo.org/records/19479525)
 
 ---
 
