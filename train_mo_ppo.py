@@ -46,7 +46,7 @@ def main():
         num_subproblems=args.num_subproblems,
         init_w_sampling=args.init_w_sampling,
         num_processes=config['num_processes'],
-        policy_buffer_size=config["policy_buffer_size"],
+        archive_size=None,
         num_steps=config['num_steps'],
         gamma=config['gamma'],
         obj_rms=config['obj_rms'],

@@ -33,9 +33,7 @@ class MOPPO(Agent):
             tmp_env: gym.Env,
             num_subproblems: int = 6,
             num_processes: int = 8,
-            policy_buffer_size: int = 200,
-            num_performance_buffer: int = 100,
-            performance_buffer_size: int = 2,
+            archive_size: Optional[int] = None,
             num_steps: int = 512,
             gamma: float = 0.995,
             obj_rms: bool = True,
@@ -90,15 +88,12 @@ class MOPPO(Agent):
             num_processes (int):
                 Number of parallel environment processes used per PPO worker
                 for rollout collection.
-            policy_buffer_size (int):
+            archive_size (int):
                 Maximum number of non-dominated policies retained in the
                 external Pareto archive. Acts as a bounded archive capacity.
             num_performance_buffer (int):
                 Number of weight vectors used for performance-based selection
                 within the archive management routine.
-            performance_buffer_size (int):
-                Number of elite policies selected per performance buffer entry
-                during archive filtering.
             num_steps (int):
                 Number of environment steps collected per rollout before a PPO
                 update is performed. Determines the on-policy batch size per
@@ -186,9 +181,7 @@ class MOPPO(Agent):
         # --- Population / Evolution parameters ---
         self.num_subproblems = num_subproblems
         self.num_processes = num_processes
-        self.policy_buffer_size = policy_buffer_size
-        self.num_performance_buffer = num_performance_buffer
-        self.performance_buffer_size = performance_buffer_size
+        self.archive_size = archive_size
 
         # --- Rollout parameters ---
         self.num_steps = num_steps
@@ -220,7 +213,7 @@ class MOPPO(Agent):
         self.init_w_sampling = init_w_sampling
         self.log = log
 
-        self.ep = ExternalPareto(self.policy_buffer_size, self.policy_buffer_size)
+        self.ep = ExternalPareto(self.archive_size)
 
         self.initial_weights = self._sample_weights()
 
@@ -418,7 +411,7 @@ class MOPPO(Agent):
         config = {
             'num_subproblems': self.num_subproblems,
             'num_processes': self.num_processes,
-            'policy_buffer_size': self.policy_buffer_size,
+            'archive_size': self.archive_size,
             'num_steps': self.num_steps,
             'gamma': self.gamma,
             'obj_rms': self.obj_rms,

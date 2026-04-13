@@ -1,5 +1,6 @@
 import numpy as np
 from copy import deepcopy
+from typing import Optional
 
 
 def check_dominated(obj_batch: np.ndarray, obj: np.ndarray) -> bool:
@@ -30,24 +31,11 @@ class ExternalPareto:
     Also keeps a history of selected objective tuples to avoid re-selecting the same solution.
     """
 
-    def __init__(self, num_select_solutions: int, policy_buffer_size: int):
+    def __init__(self, archive_size: Optional[int]):
         # Current Pareto buffer: list of samples and corresponding objective arrays
         self.obj_batch = np.array([])
         self.sample_batch = np.array([])
-
-        # Store historical selected objective values to avoid repeated selection
-        self.obj_hist = []
-
-        # Store selected solutions for next extension iteration
-        self.selected_batch = np.array([])
-        self.selected_obj_batch = np.array([])
-
-        self.policy_buffer_size = policy_buffer_size
-        self.num_select_solutions = num_select_solutions
-
-    def crowding_distance_index(self, indices: list) -> None:
-        self.selected_obj_batch = self.obj_batch[indices]
-        self.selected_batch = self.sample_batch[indices]
+        self.archive_size = archive_size
 
     def index(self, indices: list, inplace: bool = True):
         if inplace:
@@ -66,17 +54,16 @@ class ExternalPareto:
 
         ep_indices = get_ep_indices(self.obj_batch)
         self.index(ep_indices)
-        if len(self.sample_batch) > self.policy_buffer_size:
-            crowding_distances = self.calculate_crowding_distance(self.obj_batch, True)
-            sorted_indices = np.argsort(-crowding_distances)  # Get indices sorted by crowding distance
-            pareto_index = []
-            for idx in sorted_indices:
-                if len(pareto_index) < self.policy_buffer_size:
-                    pareto_index.append(idx)
-            self.sample_batch = self.sample_batch[pareto_index]
-            self.obj_batch = self.obj_batch[pareto_index]
-
-        self.filter_by_crowding_distance(self.num_select_solutions)  # number of elite policies
+        if self.archive_size is not None:
+            if len(self.sample_batch) > self.archive_size:
+                crowding_distances = self.calculate_crowding_distance(self.obj_batch, True)
+                sorted_indices = np.argsort(-crowding_distances)  # Get indices sorted by crowding distance
+                pareto_index = []
+                for idx in sorted_indices:
+                    if len(pareto_index) < self.archive_size:
+                        pareto_index.append(idx)
+                self.sample_batch = self.sample_batch[pareto_index]
+                self.obj_batch = self.obj_batch[pareto_index]
 
     def calculate_crowding_distance(self, obj_batch: np.ndarray, extreme: bool):
         if len(obj_batch) == 0:
@@ -99,20 +86,3 @@ class ExternalPareto:
             crowding_distances[sorted_indices] += distances
 
         return crowding_distances
-
-    def filter_by_crowding_distance(self, num_select_solutions: int) -> None:
-        crowding_distances = self.calculate_crowding_distance(self.obj_batch, True)
-        sorted_indices = np.argsort(-crowding_distances)  # Get indices sorted by crowding distance
-
-        # Select the top num_select_solutions policies, ensuring we don't select duplicates based on objective values
-        new_indices = []
-        for idx in sorted_indices:
-            # Convert objectives to a tuple to use as a hashable type for comparison
-            obj_tuple = tuple(self.obj_batch[idx])
-
-            if obj_tuple not in self.obj_hist and len(new_indices) < num_select_solutions:
-                new_indices.append(idx)
-                self.obj_hist.append(obj_tuple)
-
-        # Filter samples by these new indices using the existing self.index method
-        self.crowding_distance_index(new_indices)
