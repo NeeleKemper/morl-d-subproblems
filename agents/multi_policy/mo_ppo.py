@@ -91,9 +91,6 @@ class MOPPO(Agent):
             archive_size (int):
                 Maximum number of non-dominated policies retained in the
                 external Pareto archive. Acts as a bounded archive capacity.
-            num_performance_buffer (int):
-                Number of weight vectors used for performance-based selection
-                within the archive management routine.
             num_steps (int):
                 Number of environment steps collected per rollout before a PPO
                 update is performed. Determines the on-policy batch size per
