@@ -116,12 +116,13 @@ This repository builds on the following codebases:
 ## Citation
 
 ```bibtex
-@inproceedings{kemper2026subproblems,
-  title     = {How Many Subproblems? A Controlled Study of Decomposition Size 
-               in Multi-Policy Multi-Objective Reinforcement Learning},
-  author    = {Kemper, Neele and Wurth, Jonathan and Heider, Michael and H{\"a}hner, J{\"o}rg},
-  booktitle = {Proceedings of the International Joint Conference on Neural Networks (IJCNN)},
-  year      = {2026}
+@inproceedings{kemper2026many,
+  title={How Many Subproblems? A Controlled Study of Decomposition Size in Multi-Policy Multi-Objective Reinforcement Learning},
+  author={Kemper, Neele and Wurth, Jonathan and Heider, Michael and H{\"a}hner, J{\"o}rg},
+  booktitle={2026 International Joint Conference on Neural Networks (IJCNN)},
+  pages={1--8},
+  year={2026},
+  organization={IEEE}
 }
 ```
 
